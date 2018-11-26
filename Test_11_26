@@ -1,0 +1,131 @@
+'''列表、字典、元组的关系(可以转换吗）'''
+#字典
+keys = ['湘玉', '老白', '芙蓉', '秀才']
+values = [90, 85, 89, 92]
+d = dict(zip(keys, values))
+#字典转为元组,返回键
+print(tuple(d))
+#字典转为元组,返回值
+print(tuple(d.values()))
+#字典转为列表，返回键
+print(list(d))
+#字典转为列表，返回值
+print(list(d.values()))
+#元组
+tup=(1,2,3,4)
+print(tup)
+#元组转列表
+print(list(tup))
+#元组不可以转列表
+#列表
+l=[1,5]
+#列表转元组
+print(tuple(l))
+#列表不能转字典
+'''集合的赋值'''
+#直接将集合赋值给变量
+a = {3, 5}
+print(a)
+#向集合中添加元素
+a.add(7)
+print(a)
+#使用set将其他类型数据转换为集合
+b_set = set([0, 1, 2, 3, 0, 1, 2, 3, 7, 8])     #自动去除重复
+print(b_set)
+#集合不支持索引
+#字典
+print(d['湘玉'])
+#列表、元组、字符串支持双向索引，第一个元素下标为0，第二个元素下标为1，
+# 以此类推；最后一个元素下标为-1，倒数第二个元素下标为-2，以此类推。
+print(l[-1])
+print(tup[-1])
+'''
+函数的定义:
+将可能需要反复执行的代码封装为函数，并在需要该功能的地方进行调用，
+不仅可以实现代码复用，更重要的是可以保证代码的一致性，只需要修改该函
+数代码则所有调用均受到影响。
+'''
+'''无参函数的定义'''
+def func():
+	print(func.x)                 #查看函数func的成员x
+func.x = 3                        #动态为函数增加新成员
+func()
+'''切片操作：2个冒号分隔的3个数字'''
+#开始位置（默认为0）:切片截止（默认为列表长度）:步长（默认为1）,步长省略顺便省略最后一个冒号。
+alist = [3, 4, 5, 6, 7, 9, 11, 13, 15, 17]
+print(alist[1::2]) #奇数位置，隔一个取一个
+print(alist[0:5])  #前5个元素，自动截断
+alist[len(alist):] = [9]     #在尾部追加元素
+print(alist)
+alist[:3] = [1, 2, 3]       #替换前3个元素
+print(alist)
+alist[::2] = [0]*6          #替换偶数位置上的元素，切片不连续,两个元素个数必须一样多,否则报错
+print(alist)
+'''*的用法'''
+#*parameter用来接收任意多个参数并将其放在一个元组中
+def demo(*p):
+    print(p)
+demo(1,2,3)
+demo(*tup)
+#**parameter用于接收类似于关键参数一样的赋值形式的多个参数放入字典中（把该函数的参数转换为字典）
+def demo(**p):
+    for i in p.items():
+      print(i)
+demo(x=1,y=2)
+'''循环结构的优化'''
+#优化前
+import time
+import math
+digits=(1,2,3,4)
+start = time.time() #获取当前时间
+for i in range(1000):
+    result=[];
+    for i in digits:
+        for j in digits:
+            for k in digits:
+                result.append(i*100+j*10+k)
+print('Time Used:', time.time()-start) #输出所用时间
+start = time.time() #获取当前时间
+for i in range(1000):
+    result=[];
+    for i in digits:
+        i=i*100
+        for j in digits:
+            j=j*10
+            for k in digits:
+                result.append(i+j+k)
+print('Time Used:', time.time()-start) #输出所用时间
+'''字符串的连接'''
+#join(),优先使用
+li=['I','am','a','student']
+s=' '
+re=s.join(li)
+print(re)
+#+运算符
+re=''
+for lis in li:
+    re=re+lis+s
+print(re)
+'''
+在Python中，以下划线开头的变量名和方法名有特殊的含义，尤其是在类的定义中。
+用下划线作为变量名和方法名前缀和后缀来表示类的特殊成员：
+_xxx：受保护成员，不能用'from module import *'导入；
+__xxx__：系统定义的特殊成员；
+__xxx：私有成员，只有类对象自己能访问，子类对象不能直接访问到这个成员，
+但在对象外部可以通过“对象名._类名__xxx”这样的特殊方式来访问。
+'''
+#演示特殊成员定义和访问的方法
+class Fruit:
+    def __init__(self):
+        self.__color='red'
+        self.price=5
+apple=Fruit()
+#print(apple.__color) #报错，不能直接访问对象的私有数据成员
+print(apple.price,apple._Fruit__color)
+apple._Fruit__color='bule'
+print(apple._Fruit__color)
+'''try...except...finally'''
+#finally子句中的内存无论是否发生异常都会执行，常用来做一些清理工作以释放try子句中申请的资源。
+#防止文件读取操作出现异常而导致文件不能正常关闭，
+# 如果因为文件不存在而导致文件对象创建失败，那么finally子句中关闭文件对象的代码将会抛出异常从而导致程序终止运行。
+#如果try子句中的异常没有被处理，或者在except子句或else子句中出现了异常，那么这些异常将会在finally子句执行完后再次抛出。
